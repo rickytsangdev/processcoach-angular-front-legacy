@@ -45,12 +45,19 @@ export class DashboardComponent implements OnInit {
 
   isAdmin: boolean = false;
   backgroundClass: string = 'bg-green-gradient';
+  firstName: string = '';
+  lastName: string = '';
 
   constructor(private authService: AuthService) {}
 
   async ngOnInit(): Promise<void> {
     this.isAdmin = await this.authService.isAdmin();
     this.backgroundClass = this.isAdmin ? 'bg-admin' : 'bg-green-gradient';
+    const user = await this.authService.getCurrentUser();
+    if (user) {
+      this.firstName = user.firstName;
+      this.lastName = user.lastName;
+    }
     console.log('Is Admin : ', this.isAdmin);
   }
 }
